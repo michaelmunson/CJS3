@@ -2,174 +2,7 @@ import { $Query, CJSAnimation, CJSDeclaration, CJSKeyframes, CJSProperty, CJSRul
 import css from "./lib/css.mjs";
 import { analyzer } from "./lib/helpers.mjs";
 
-// const cjs3 = {
-//     ...css,
-//     lexicon:css.lexicon,
-//     StyleSheet:CJSStyleSheet,
-//     Rule:CJSRule,
-//     Declaration:CJSDeclaration,
-//     Property:CJSProperty,
-//     Keyframes:CJSKeyframes,
-//     $Query,
-//     $ : (...queries) => new $Query(...queries),
-//     get keyframes(){
-//         return keyframes; 
-//     },
-//     set keyframes(v){
-//         for (let p in v){
-//             this.keyframes[p] = v[p]; 
-//         }
-//     },
-//     get properties(){
-//         return properties; 
-//     },
-//     set properties(v){
-//         for (let p in v){
-//             console.log(p);
-
-//             v[p].name = p;
-//             this.properties[p] = v[p]; 
-//         }
-//     },
-//     get config(){
-//         return {
-//             get globals(){
-//                 return {
-//                     get colors(){
-//                         return this.config.global.colors 
-//                     },
-//                     get properties(){
-//                         return this.config.global.properties 
-//                     },
-//                     get units(){
-//                         return this.config.global.units 
-//                     },
-//                     set colors(v){
-//                         analyzer(v).enforce('boolean')
-//                         this.config.global.colors = v;
-//                         if (v){
-//                             for (let color in css.colors){
-//                                 global[color] = css.colors[color]
-//                             }
-//                         }
-//                         return v; 
-//                     },
-//                     set properties(v){
-//                         analyzer(v).enforce('boolean')
-//                         this.config.global.properties = v;
-//                         if (v){
-//                             for (let prop in this.properties){
-//                                 try{
-//                                     if (this.properties[prop]['value']){
-//                                         global[prop] = this.properties[prop]['value']
-//                                     }
-//                                     else {
-//                                         global[prop] = ''; 
-//                                     }
-//                                 }
-//                                 catch(e) {
-        
-//                                 }
-//                             }
-//                         }
-//                         else {
-//                             global[this.properties[prop]] = undefined; 
-//                         }
-                        
-//                     },
-//                     set units(v){
-//                         analyzer(v).enforce('boolean')
-//                         this.config.global.units = v;
-//                         if (v){
-//                             for (let unit in css.units){
-//                                 function unitfn(int){
-//                                     return new this.Unit(int+unit); 
-//                                 };
-//                                 global[unit] = unitfn; 
-//                             }
-//                         }
-//                         else {
-//                             global[css.properties[prop]] = undefined; 
-//                         }
-//                     },
-//                     get keyframes(){
-//                         return keyframes; 
-//                     },
-//                     set keyframes(v){
-//                         if (v){
-//                             for (let i in keyframes){
-//                                 global[i] = keyframes[i]; 
-//                             }
-//                         }
-//                         return true; 
-//                     },
-//                 }
-//             },
-//             set globals(configObj){
-                
-//                 for (let i in configObj){
-//                     if (i in this.global){
-                        
-//                         this.global[i] = configObj[i]; 
-//                     }
-//                     else {
-//                         global[i] = configObj[i]; 
-//                     }
-//                 }
-//             },
-//             get strict(){
-//                 return config.strict; 
-//             },
-//             set strict(v){
-//                 if (typeof v==='boolean'){
-//                     config.strict = v; 
-//                 }
-
-//             },
-//             get errors(){
-//                 return {
-//                     get onError(){
-//                         return this.config.errors.onError;
-//                     },
-//                     set onError(v){
-//                         this.config.errors.onError = v; 
-//                         return v; 
-//                     },
-//                     get logError(){
-//                         return this.config.errors.logErrors;
-//                     },
-//                     set logError(v){
-//                         this.config.errors.logErrors = v; 
-//                         return v; 
-//                     }
-//                 }
-//             },
-//         }
-//     },
-//     set config(obj){
-//         for (let i in obj){
-//             try {
-//                 this.config[i] = obj[i]; 
-//             }
-//             catch(e){}
-//         }
-//     },
-//     get global(){
-//         return global; 
-//     },
-//     set global(v){
-//         Object.assign(global,v); 
-//     }
-// }
-
 const constructors = [];
-
-const helperSS = {
-    styleSheet : null,
-    get sheet(){
-        return this.styleSheet.sheet;
-    }
-}
 
 class CJS3 {
     static activeTheme = "";
@@ -303,6 +136,10 @@ class CJS3 {
     static $ = (...queries) => new $Query(...queries)
 }
 
+const Unit = css.Unit;
+const Color = css.Color;
+const $ = query => new $Query(query);
+
 const __init__ = function(){
     CJS3.config = {
         global : {...config.global},
@@ -339,13 +176,9 @@ const __init__ = function(){
             })
         }
     });
-    // const cjs3HelperNode = document.createElement('style');
-    // cjs3HelperNode.id = 'cjs3-helper-node';
-    // document.head.append(cjs3HelperNode);
-    // helperSS.styleSheet = cjs3HelperNode;
-    // global['_$'] = helperSS; 
 };
 
 __init__(); 
 
+export {CJS3,$,Unit,Color,CJSAnimation,CJSKeyframes,CJSDeclaration,CJSProperty,CJSRule,CJSStyleSheet,CJSKeyframes,}
 export default CJS3
